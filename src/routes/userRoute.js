@@ -10,5 +10,7 @@ userRoute.get('/all', isAdmin, userController.getAllUsers );
 userRoute.get('/:id', isAdmin, userController.getUserById);
 userRoute.post('/login', Validation.userLoginValidation, userController.login);
 userRoute.delete('/delete/:id', isAdmin, userController.deleteUser);
+userRoute.post('/forgot-password', Validation.forgotPasswordValidation, userController.forgotpassword);
+userRoute.post('/reset-password/:resetToken', Validation.resetPasswordValidation, userController.resetPassword);
 
 export default userRoute;

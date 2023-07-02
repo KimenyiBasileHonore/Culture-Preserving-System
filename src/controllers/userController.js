@@ -2,6 +2,15 @@ import { generate,check  } from "../helpers/bcrypt";
 import { sign } from "../helpers/jwt";
 import output from '../helpers/response';
 import UserServices from "../services/userService";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+    service:"kimbasile23@gmail.com",
+    auth: {
+        user:"kimbasile23@gmail.com",
+        pass:"Honoree@1",
+    },
+})
 
 class UserController {
     static async signUp(req, res){
@@ -89,6 +98,66 @@ class UserController {
         } catch (error) {
             return output (res, 500, error.message || error, null, 'SERVER_ERROR');
             
+        }
+    }
+
+    static async forgotpassword (req, res ){
+        try {
+            const {email} = req.body
+            const user = await UserServices.getSingleUser ({email});
+            if (!user) {
+                return output (res, 404, 'Email not registerd',null,'EMAIL_NOT_FOUND');
+            }
+
+            const resetToken = generateResetToken();
+            user.resetToken = resetToken ;
+            user.resetTokenExpiry = Date.now() + 3600000;
+            await user.save();
+
+            const mailOptions = {
+                from: "kimbasile23@gmail.com",
+                to :email,
+                subject:"Password Reset",
+                Text:`Hello ${user.username},\n\nYou have requested a password reset. Please click on the following link to reset your password:\n\n${resetToken}`
+            };
+            await transporter.sendMail(mailOptions);
+
+            return output(res,200, 'Password Reset instractions sent to your email',null);
+
+            
+        } catch (error) {
+            return output (res,500,' error.message' || error,null,'SERVER_ERRO');
+            
+        }
+    }
+
+    static async resetPassword(req, res) {
+        try {
+          const { resetToken } = req.params;
+          const { password } = req.body;
+    
+          const user = await UserServices.getSingleUser({ resetToken, resetTokenExpiry: { $gt: Date.now() } });
+          if (!user) {
+            return output(res, 404, 'Invalid or expired reset token', null, 'INVALID_RESET_TOKEN');
+          }
+    
+          const newPassword = await generate(password);
+    
+          user.password = newPassword;
+          user.resetToken = undefined;
+          user.resetTokenExpiry = undefined;
+          await user.save();
+    
+          const accessToken = sign({
+            id: user._id, username: user.username, role: user.role, email: user.email
+          });
+    
+          user.password = undefined;
+          user._doc.accessToken = accessToken;
+    
+          return output(res, 200, 'Password reset successful', user);
+        } catch (error) {
+          return output(res, 500, error.message || error, null, 'SERVER_ERROR');
         }
     }
 }
