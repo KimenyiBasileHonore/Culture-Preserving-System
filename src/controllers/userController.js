@@ -44,6 +44,17 @@ class UserController {
         }
     }
 
+    static async getRegisteredUsersCount(req, res) {
+        try {
+          const users = await UserServices.getAllusers();
+          const registeredUsersCount = users.filter(user => user.role === "user").length;
+          return output(res, 200, 'Registered users count retrieved successfully', { count: registeredUsersCount });
+        } catch (error) {
+          return output(res, 500, error.message || error, null, 'SERVER_ERROR');
+        }
+      }
+      
+
     static async getUserById (req, res) {
         try {
             const user = await UserServices.getUserById(req.params.id);

@@ -35,3 +35,4 @@ export const isUser = async (req, res, next) =>{
         return output(res, 401, error.message || error, null, 'AUTHENTICATION_ERROR');
     }
 }
+

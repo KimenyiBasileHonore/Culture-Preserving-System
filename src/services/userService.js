@@ -11,6 +11,11 @@ class UserServices {
         return user;
     }
 
+    static async getRegisteredUsersCount() {
+        const users = await User.find({ role: "user" });
+        return users.length;
+      }
+
     static async getUserById (userId) {
         const user = await User.findById(userId);
         return user;
