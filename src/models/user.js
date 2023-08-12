@@ -20,11 +20,11 @@ const userSchema = new mongoose.Schema ({
         unique: true
        
     },
-    role: {
-        type: String,
-        default: "citizen",
+    // role: {
+    //     type: String,
+    //     default: "citizen",
         
-    },
+    // },
     
     password: {
         type: String,

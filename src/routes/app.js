@@ -15,7 +15,8 @@ import umwamiRoutes from "./umwamiRoutes";
 import ahantuRoutes from "./ahantuRoutes"
 import incamarengaRoutes from "./incamarengaRoutes";
 import ibyivugoRoutes from "./ibyivugoRoutes";
- 
+import imiganiRoutes from "./imiganiRoutes";
+import kunkaRoutes from "./kunkaRoute";
 
 
 const route = express.Router();
@@ -36,7 +37,8 @@ route.use('/umwami', umwamiRoutes);
 route.use('/ahantu',ahantuRoutes);
 route.use('/incamarenga', incamarengaRoutes);
 route.use('/ibyivugo', ibyivugoRoutes);
-
+route.use('/imigani',imiganiRoutes);
+route.use('/kunka', kunkaRoutes);
 
 
 export default route ;

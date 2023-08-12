@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const imiganimiremireController = require('../controllers/imiganimiremireController');
-const { isAdmin } = require("../middlewares/authentication");
+// const { isAdmin } = require("../middlewares/authentication");
 
 
 // Route to get all imiganimiremire
 router.get('/imiganimiremire', imiganimiremireController.getAllImiganimiremire);
-router.get('/imiganimiremire/:id', isAdmin, imiganimiremireController.getImiganimiremireById); 
+router.get('/imiganimiremire/:id',  imiganimiremireController.getImiganimiremireById); 
 
 // Route to create a new imiganimiremire
-router.post('/imiganimiremire', isAdmin,imiganimiremireController.createImiganimiremire);
+router.post('/imiganimiremire', imiganimiremireController.createImiganimiremire);
 
 // Route to update a imiganimiremire
-router.put('/imiganimiremire/:id', isAdmin,imiganimiremireController.updateImiganimiremire);
+router.put('/imiganimiremire/:id', imiganimiremireController.updateImiganimiremire);
 
 // Route to delete a imiganimiremire
-router.delete('/imiganimiremire/:id', isAdmin, imiganimiremireController.deleteImiganimiremire);
+router.delete('/imiganimiremire/:id', imiganimiremireController.deleteImiganimiremire);
 
 module.exports = router;

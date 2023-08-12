@@ -21,14 +21,14 @@ exports.getKungomaById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
 exports.createKungoma = async (req, res) => {
   try {
-    const { title, content, author } = req.body;
-    const newKungoma = new Kungoma({ title, content, author });
-    const savedKungoma = await newKungoma.save();
-    res.status(200).json(savedKungoma);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const kungoma = await Kungoma.create(req.body);
+    res.status(201).json(kungoma);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
