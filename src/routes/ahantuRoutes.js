@@ -6,6 +6,7 @@ const ahantuController = require('../controllers/ahantuController');
 // Routes for Ahantu items
 router.get('/ahantu', ahantuController.getAllAhantu);
 router.get('/ahantu/:id', ahantuController.getAhantuById);
+router.get('/countTitles', ahantuController.countTitles);
 router.post('/ahantu',  ahantuController.createAhantu);
 router.put('/ahantu/:id',  ahantuController.updateAhantu);
 router.delete('/ahantu/:id',  ahantuController.deleteAhantu);

@@ -10,5 +10,7 @@ router.get('/indirimbo/:id', indirimboController.getIndirimboById);
 router.post('/indirimbo', indirimboController.createIndirimbo);
 router.put('/indirimbo/:id', indirimboController.updateIndirimbo);
 router.delete('/indirimbo/:id',  indirimboController.deleteIndirimbo);
+router.get('/countTitles', indirimboController.countTitles);
+
 
 module.exports = router;

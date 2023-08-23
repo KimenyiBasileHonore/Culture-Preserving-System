@@ -54,3 +54,12 @@ exports.deleteKungoma = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.countTitles = async (req, res) => {
+  try {
+    const titleCount = await Kungoma.countDocuments();
+    res.status(200).json({ count: titleCount });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};

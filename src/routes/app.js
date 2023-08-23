@@ -17,9 +17,12 @@ import incamarengaRoutes from "./incamarengaRoutes";
 import ibyivugoRoutes from "./ibyivugoRoutes";
 import imiganiRoutes from "./imiganiRoutes";
 import kunkaRoutes from "./kunkaRoute";
+import generateRoutes from "./pdfRoutes";
+import analyticsRoutes from "./analyticsRoutes";
 
 
 const route = express.Router();
+
 
 route.use('/user', userRoute);
 route.use('/feedback',feedbackRouter);
@@ -39,6 +42,9 @@ route.use('/incamarenga', incamarengaRoutes);
 route.use('/ibyivugo', ibyivugoRoutes);
 route.use('/imigani',imiganiRoutes);
 route.use('/kunka', kunkaRoutes);
+route.use('/tracking', analyticsRoutes);
+
+// route.use('/generate', generateRoutes);
 
 
 export default route ;

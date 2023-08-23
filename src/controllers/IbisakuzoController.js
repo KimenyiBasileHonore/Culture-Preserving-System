@@ -11,6 +11,16 @@ const getAllIbisakuzo = async (req, res) => {
   }
 };
 
+const countQuestions = async () => {
+  try {
+    const count = await Ibisakuzo.countDocuments();
+    return count;
+  } catch (err) {
+    console.error(err.message);
+    throw new Error('Error counting questions');
+  }
+};
+
 // Add a new ibisakuzo (question)
 const addIbisakuzo = async (req, res) => {
   const { question, answers } = req.body;
@@ -64,10 +74,23 @@ const deleteIbisakuzo = async (req, res) => {
   }
 };
 
+const getIbisakuzoCount = async (req, res) => {
+  try {
+    const count = await Ibisakuzo.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+};
+
 module.exports = {
   getAllIbisakuzo,
   addIbisakuzo,
   updateIbisakuzo,
   deleteIbisakuzo,
   getIbisakuzoById,
+  countQuestions,
+  getIbisakuzoCount,
+  
 };

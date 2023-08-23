@@ -6,9 +6,10 @@ import ibisakuzoController from "../controllers/ibisakuzoController";
 const ibisakuzoRouter = express.Router();
 
 ibisakuzoRouter.get('/ibisakuzo', ibisakuzoController.getAllIbisakuzo);
-ibisakuzoRouter.get('/ibisakuzo/:id',  ibisakuzoController.getIbisakuzoById); // New route for getting by ID
-ibisakuzoRouter.post('/ibisakuzo',   ibisakuzoController.addIbisakuzo);
-ibisakuzoRouter.put('/ibisakuzo/:id',  ibisakuzoController.updateIbisakuzo);
-ibisakuzoRouter.delete('/ibisakuzo/:id',  ibisakuzoController.deleteIbisakuzo);
+ibisakuzoRouter.get('/ibisakuzo/count', ibisakuzoController.getIbisakuzoCount); 
+ibisakuzoRouter.get('/ibisakuzo/:id', ibisakuzoController.getIbisakuzoById);
+ibisakuzoRouter.post('/ibisakuzo', ibisakuzoController.addIbisakuzo);
+ibisakuzoRouter.put('/ibisakuzo/:id', ibisakuzoController.updateIbisakuzo);
+ibisakuzoRouter.delete('/ibisakuzo/:id', ibisakuzoController.deleteIbisakuzo);
 
 export default ibisakuzoRouter;

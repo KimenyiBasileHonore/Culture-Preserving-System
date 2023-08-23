@@ -65,6 +65,16 @@ const deleteImivugo = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+const countTitles = async (req, res) => {
+  try {
+    const titleCount = await Imivugo.countDocuments();
+    res.status(200).json({ count: titleCount });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 
 module.exports = {
   getAllImivugo,
@@ -72,4 +82,6 @@ module.exports = {
   getImivugoById,
   updateImivugo,
   deleteImivugo,
+  countTitles,
+  
 };

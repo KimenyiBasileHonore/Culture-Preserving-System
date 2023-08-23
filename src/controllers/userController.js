@@ -3,6 +3,7 @@ import { sign } from "../helpers/jwt";
 import output from '../helpers/response';
 import UserServices from "../services/userService";
 import nodemailer from "nodemailer";
+import User from "../models/user";
 
 const transporter = nodemailer.createTransport({
     service:"kimbasile23@gmail.com",
@@ -22,15 +23,15 @@ class UserController {
             }
             req.body.password = await generate(req.body.password);
             const user = await UserServices.createUser({ ...req.body});
-            user.password = undefined;
-            const accessToken = sign({
-                id: user._id, username: user.username, role: user.role, email:user.email
-            });
-            user._doc.accessToken = accessToken;
-            return output(res, 201, 'Signup successfull', user)
+            // user.password = undefined;
+            // const accessToken = sign({
+            //     id: user._id, username: user.username, role: user.role, email:user.email
+            // });
+            // user._doc.accessToken = accessToken;
+            res.status(200).json({message:"successfully saved"})
             
         } catch (error) {
-            return output (res, 500, error.message || error, null, 'SERVER_ERROR');
+            res.status(500).json(error)
         }
     }
 
@@ -53,6 +54,17 @@ class UserController {
           return output(res, 500, error.message || error, null, 'SERVER_ERROR');
         }
       }
+
+    static async getRegisteredUsersCount(req, res) {
+        try {
+          const users = await UserServices.getAllusers();
+          const registeredUsersCount = users.filter(user => user.role === "user").length;
+          return output(res, 200, 'Registered users count retrieved successfully', { count: registeredUsersCount });
+        } catch (error) {
+          return output(res, 500, error.message || error, null, 'SERVER_ERROR');
+        }
+      }
+      
       
 
     static async getUserById (req, res) {
@@ -70,47 +82,45 @@ class UserController {
     static async login (req, res) {
         try {
             const { account } =req.body;
-            const user = await UserServices.getSingleUser ({ $or: [{username: account}, {email: account}]});
-            if(!user) {
-                return output (res, 404, 'Username or email not registered', null, 'USER_NOT_FOUND');
+            console.log(req.body)
+            try {
+                const data = await User.findOne({email:req.body.account})
+                if(!check(data.password, req.body.password)) {
+                    res.status(401).json({"message":"password doesnt match"})
+                }
+                else{
+                    const accessToken = sign ({
+                        id: data.id, email: data.email, username: data.username, role:data.role
+                    });
+                    data.password= undefined;
+                    data._doc.accessToken= accessToken;
+                    res.status(200).json({"token":accessToken,'role':data.role})
+                }
+
+            } catch (error) {
+                console.log(error)
+                res.status(404).json({"message":"user not found"})
             }
-            if(!check(user.password, req.body.password)) {
-                return output (res, 401, 'Wrong password ', null, 'UNAUTHORIZED' );
-            }
-            const accessToken = sign ({
-                id: user.id, email: user.email, username: user.username, role:user.role
-            });
-            user.password= undefined;
-            user.role= undefined;
-            user._doc.accessToken= accessToken;
-            return output (res, 200, 'login Successful', user);
-            
         } catch (error) {
-            return output(res, 500, error.message || error, null, 'SERVER_ERROR');
+            console.log(error)
+            res.status(500).json(error)
         }
     }
 
-    static async deleteUser (req, res) {
+    static async deleteUser(req, res) {
         try {
-            const user = await UserServices.getUserById(req.params.id);
-            if (!user) {
-                return output (res, 404, 'User not found',null,  'USER_NOT_FOUND');
-            }
-            if (user.role === "admin " && user.id === req.user.id) {
-                return output (res, 403, 'Admini cannot delete their oun accounts ', null, 'FORBIDDEN');
-            }
-            if (!(user.role === "admin" && user.id === req.user.id) ) {
-                return output (res, 403, 'You can not delete other\'s account ', null, 'FORBIDDEN');
-                
-            }
-
-            await UserServices.deleteUser(req.params.id);
-            return output (res, 200 , 'User deleted Successful', null);
+          const user = await UserServices.getUserById(req.params.id);
+          if (!user) {
+            return output(res, 404, 'User not found', null, 'USER_NOT_FOUND');
+          }
+      
+          await UserServices.deleteUser(req.params.id);
+          return output(res, 200, 'User deleted successfully', null);
         } catch (error) {
-            return output (res, 500, error.message || error, null, 'SERVER_ERROR');
-            
+          return output(res, 500, error.message || error, null, 'SERVER_ERROR');
         }
-    }
+      }
+      
 
     static async forgotpassword (req, res ){
         try {

@@ -9,5 +9,6 @@ router.get('/inka/:id', inkaController.getInkaById);
 router.post('/inka',inkaController.createInka);
 router.put('/inka/:id', inkaController.updateInka);
 router.delete('/inka/:id', inkaController.deleteInka);
+router.get('/countTitles', inkaController.countTitles);
 
 module.exports = router;

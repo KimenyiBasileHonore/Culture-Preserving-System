@@ -4,17 +4,11 @@ const imiganimiremireController = require('../controllers/imiganimiremireControl
 // const { isAdmin } = require("../middlewares/authentication");
 
 
-// Route to get all imiganimiremire
 router.get('/imiganimiremire', imiganimiremireController.getAllImiganimiremire);
 router.get('/imiganimiremire/:id',  imiganimiremireController.getImiganimiremireById); 
-
-// Route to create a new imiganimiremire
 router.post('/imiganimiremire', imiganimiremireController.createImiganimiremire);
-
-// Route to update a imiganimiremire
 router.put('/imiganimiremire/:id', imiganimiremireController.updateImiganimiremire);
-
-// Route to delete a imiganimiremire
 router.delete('/imiganimiremire/:id', imiganimiremireController.deleteImiganimiremire);
+router.get("/countTitles", imiganimiremireController.countTitles);
 
 module.exports = router;

@@ -49,7 +49,7 @@ exports.updateUmwami = async (req, res) => {
   }
 };
 
-// Delete an existing Umwami item
+
 exports.deleteUmwami = async (req, res) => {
   try {
     const umwami = await Umwami.findByIdAndDelete(req.params.id);
@@ -57,6 +57,15 @@ exports.deleteUmwami = async (req, res) => {
       return res.status(404).json({ message: 'Umwami not found' });
     }
     res.status(200).json({ message: 'Umwami deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+exports.countTitles = async (req, res) => {
+  try {
+    const titleCount = await Umwami.countDocuments();
+    res.status(200).json({ count: titleCount });
   } catch (error) {
     res.status(500).json({ message: 'Server Error' });
   }

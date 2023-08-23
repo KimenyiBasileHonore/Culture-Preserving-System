@@ -19,6 +19,16 @@ exports.createImigani = async (req, res) => {
   }
 };
 
+
+exports.countImigani = async (req, res) => {
+  try {
+    const imiganiCount = await Imigani.countDocuments();
+    res.status(200).json({ count: imiganiCount });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
 exports.deleteImigani = async (req, res) => {
   try {
     const deletedImigani = await Imigani.findByIdAndDelete(req.params.id);

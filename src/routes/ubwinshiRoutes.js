@@ -6,6 +6,7 @@ const ubwinshiRouter = express.Router();
 
 ubwinshiRouter.get('/ubwinshi', ubwinshiController.getAllUbwinshi);
 ubwinshiRouter.get('/ubwinshi/:id', ubwinshiController.getUbwinshiById);
+ubwinshiRouter.get('/countTitles', ubwinshiController.countTitles);
 ubwinshiRouter.post('/ubwinshi', ubwinshiController.addUbwinshi);
 ubwinshiRouter.put('/ubwinshi/:id', ubwinshiController.updateUbwinshi);
 ubwinshiRouter.delete('/ubwinshi/:id', ubwinshiController.deleteUbwinshi);

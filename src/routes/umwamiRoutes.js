@@ -6,6 +6,7 @@ const umwamiController = require('../controllers/umwamiController');
 // Routes for Umwami items
 router.get('/umwami', umwamiController.getAllUmwami);
 router.get('/umwami/:id', umwamiController.getUmwamiById);
+router.get('/countTitles', umwamiController.countTitles);
 router.post('/umwami', umwamiController.createUmwami);
 router.put('/umwami/:id', umwamiController.updateUmwami);
 router.delete('/delumwami/:id', umwamiController.deleteUmwami);

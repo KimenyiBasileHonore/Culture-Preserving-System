@@ -7,7 +7,7 @@ import route from './routes/app';
 const app = express();
 dbConnect();
 
-app.use(cors());
+app.use(cors({orgin:"*"}));
 app.use(express.json());
 app.use('/api',route);
 
